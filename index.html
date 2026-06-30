@@ -95,6 +95,7 @@
     <a href="#base">Base</a>
     <a href="#optimistic">Optimistic</a>
     <a href="#takeaways">Takeaways</a>
+    <a class="doclink" href="one-pager.html" style="font-weight:700;color:var(--accent);border:1px solid var(--line)">One-pager ↗</a>
     <span class="langtabs"><a class="active" href="index.html">ENG</a></span>
   </div>
 </nav>
@@ -314,9 +315,9 @@
   var baseGmv=base.map(function(v){return v*12;});
   var optGmv=opt.map(function(v){return v*12;});
 
-  function drawGrouped(id, s1, s2, fmt){
+  function drawGrouped(id, s1, s2, fmt, vfmt){
     var svg=document.getElementById(id);
-    var W=720,H=280,padL=64,padR=16,padT=14,padB=34;
+    var W=720,H=280,padL=64,padR=16,padT=30,padB=34;
     var plotW=W-padL-padR, plotH=H-padT-padB;
     var max=Math.max.apply(null,s1.concat(s2));
     var niceMax=Math.ceil(max/ (max>500000?100000: max>50000?5000:1000)) * (max>500000?100000: max>50000?5000:1000);
@@ -332,20 +333,29 @@
       t.textContent=fmt(val);svg.appendChild(t);
     }
     var n=months.length, groupW=plotW/n, barW=Math.min(26,groupW*0.30), gap=6;
+    function bar(x,h,fill){ svg.appendChild(el("rect",{x:x,y:padT+plotH-h,width:barW,height:h,rx:3,fill:fill})); }
+    function dataLabel(cx,h,txt,fill){
+      var lb=el("text",{x:cx,y:padT+plotH-h-5,"text-anchor":"middle","font-size":9.5,"font-weight":700,fill:fill});
+      lb.textContent=txt;svg.appendChild(lb);
+    }
     for(var j=0;j<n;j++){
       var cx=padL+groupW*j+groupW/2;
-      var x1=cx-barW-gap/2, x2=cx+gap/2;
+      var c1=cx-barW/2-gap/2, c2=cx+barW/2+gap/2; // centers of the two bars
+      var x1=c1-barW/2, x2=c2-barW/2;
       var h1=(s1[j]/niceMax)*plotH, h2=(s2[j]/niceMax)*plotH;
-      svg.appendChild(el("rect",{x:x1,y:padT+plotH-h1,width:barW,height:h1,rx:3,fill:"#2563eb"}));
-      svg.appendChild(el("rect",{x:x2,y:padT+plotH-h2,width:barW,height:h2,rx:3,fill:"#15a34a"}));
+      bar(x1,h1,"#2563eb"); bar(x2,h2,"#15a34a");
+      dataLabel(c1,h1,vfmt(s1[j]),"#1d4ed8");
+      dataLabel(c2,h2,vfmt(s2[j]),"#0f7a37");
       var lab=el("text",{x:cx,y:H-12,"text-anchor":"middle","font-size":12,fill:"#33425d"});
       lab.textContent=months[j];svg.appendChild(lab);
     }
   }
   function kfmt(v){ if(v>=1000) return (v/1000).toFixed(v>=10000?0:1)+"k"; return Math.round(v); }
   function efmt(v){ if(v>=1000) return "€"+(v/1000).toFixed(v>=100000?0:0)+"k"; return "€"+Math.round(v); }
-  drawGrouped("chartOrders", base, opt, kfmt);
-  drawGrouped("chartGmv", baseGmv, optGmv, efmt);
+  function ordLabel(v){ return v>=1000 ? (v/1000).toFixed(1)+"k" : String(v); }
+  function gmvLabel(v){ return "€"+(v/1000).toFixed(0)+"k"; }
+  drawGrouped("chartOrders", base, opt, kfmt, ordLabel);
+  drawGrouped("chartGmv", baseGmv, optGmv, efmt, gmvLabel);
 })();
 </script>
 
