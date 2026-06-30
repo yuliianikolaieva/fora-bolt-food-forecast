@@ -116,20 +116,35 @@
       </div>
     </div>
     <div>
-      <h2 class="sec"><span class="bar"></span>Monthly orders</h2>
-      <table class="t">
-        <tr><th>Month</th><th>Locs</th><th>Base</th><th>Optimistic</th></tr>
-        <tr><td class="k">Jul (from 20)</td><td>100</td><td>1,526</td><td>2,480</td></tr>
-        <tr><td class="k">Aug</td><td>150</td><td>9,201</td><td>14,951</td></tr>
-        <tr><td class="k">Sep</td><td>216</td><td>15,557</td><td>25,279</td></tr>
-        <tr><td class="k">Oct</td><td>216</td><td>21,267</td><td>34,559</td></tr>
-        <tr><td class="k">Nov</td><td>216</td><td>23,977</td><td>38,963</td></tr>
-        <tr><td class="k">Dec</td><td>216</td><td>27,021</td><td>43,910</td></tr>
-        <tr class="tot"><td class="k">H2 total</td><td>—</td><td>98,549</td><td>160,142</td></tr>
-      </table>
-      <p style="font-size:11.5px;color:var(--muted);margin:6px 0 0">GMV = orders × €12 → Base €1.18M · Optimistic €1.92M.</p>
+      <h2 class="sec"><span class="bar" style="background:var(--warn)"></span>How it's calculated</h2>
+      <div class="card warn">
+        <ul class="tight">
+          <li><b>Mature rate per store:</b> Glovo Fora 10.6 orders/store/day × scenario share → <b>Base 4.24</b>, <b>Optimistic 6.89</b> orders/loc/day.</li>
+          <li><b>Ramp factor</b> by months a store has been live: <b>30% · 55% · 75% · 88% · 95% · 100%</b> (each cohort ramps separately).</li>
+          <li><b>Orders/loc/day (month)</b> = mature rate × blended ramp factor across live cohorts.</li>
+          <li><b>Orders/month</b> = orders/loc/day × locations × operating days <span style="color:var(--muted)">(Jul = 12, others = full month)</span>.</li>
+          <li><b>GMV/month</b> = orders/month × <b>€12</b> (AOV).</li>
+        </ul>
+      </div>
     </div>
   </div>
+
+  <h2 class="sec"><span class="bar"></span>Monthly detail — orders, orders/location &amp; GMV</h2>
+  <table class="t">
+    <tr>
+      <th rowspan="2">Month</th><th rowspan="2">Locs</th>
+      <th colspan="2" style="text-align:center">Orders/loc/day</th><th colspan="2" style="text-align:center">Orders/month</th><th colspan="2" style="text-align:center">GMV/month (€)</th>
+    </tr>
+    <tr><th>Base</th><th>Opt</th><th>Base</th><th>Opt</th><th>Base</th><th>Opt</th></tr>
+    <tr><td class="k">Jul (from 20, 12 d)</td><td>100</td><td>1.27</td><td>2.07</td><td>1,526</td><td>2,480</td><td>€18,312</td><td>€29,760</td></tr>
+    <tr><td class="k">Aug</td><td>150</td><td>1.98</td><td>3.22</td><td>9,201</td><td>14,951</td><td>€110,412</td><td>€179,412</td></tr>
+    <tr><td class="k">Sep</td><td>216</td><td>2.40</td><td>3.90</td><td>15,557</td><td>25,279</td><td>€186,684</td><td>€303,348</td></tr>
+    <tr><td class="k">Oct</td><td>216</td><td>3.18</td><td>5.16</td><td>21,267</td><td>34,559</td><td>€255,204</td><td>€414,708</td></tr>
+    <tr><td class="k">Nov</td><td>216</td><td>3.70</td><td>6.01</td><td>23,977</td><td>38,963</td><td>€287,724</td><td>€467,556</td></tr>
+    <tr><td class="k">Dec</td><td>216</td><td>4.04</td><td>6.56</td><td>27,021</td><td>43,910</td><td>€324,252</td><td>€526,920</td></tr>
+    <tr class="tot"><td class="k">H2 total</td><td>—</td><td>—</td><td>—</td><td>98,549</td><td>160,142</td><td>€1,182,588</td><td>€1,921,704</td></tr>
+  </table>
+  <p style="font-size:11.5px;color:var(--muted);margin:6px 0 0">Orders/loc/day is the blended rate across all live cohorts that month (reflects ramp-up). GMV = orders × €12.</p>
 
   <h2 class="sec"><span class="bar" style="background:var(--warn)"></span>Key risks &amp; what they depend on</h2>
   <div class="grid" style="grid-template-columns:1fr 1fr 1fr">
